@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
   <base href="/lumiere-web/">
 
   <meta charset="UTF-8">
@@ -9,8 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="PyME-Sync - Sistema Móvil de Gestión de Inventario para pequeñas y medianas empresas.">
 
-  <!-- Preconnect y Preload para recursos críticos -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Precarga de scripts para reducir tiempo de bloqueo -->
   <link rel="preload" href="flutter.js" as="script">
   <link rel="preload" href="main.dart.js" as="script">
 
@@ -22,15 +20,12 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <!-- Theme Color para PWA y accesibilidad -->
   <meta name="theme-color" content="#121212">
 
   <title>PyME-Sync - Sistema Móvil de Gestión de Inventario</title>
   <link rel="manifest" href="manifest.json">
 
   <style>
-    /* Estilos inline para evitar Render Blocking y mejorar FCP */
     body {
       background-color: #121212;
       margin: 0;
@@ -63,11 +58,11 @@
     }
   </style>
 
-  <!-- Script de Flutter con atributo defer -->
-  <script src="flutter.js" defer></script>
+  <!-- Script principal de Flutter (sin defer para asegurar orden de carga) -->
+  <script src="flutter.js"></script>
 </head>
 <body>
-  <!-- Indicador visual inmediato para First Contentful Paint (FCP) -->
+  <!-- Indicador visual mientras carga el Javascript -->
   <div id="loading" class="loading-container">
     <div class="spinner"></div>
     <p>Cargando PyME-Sync...</p>
@@ -75,19 +70,18 @@
 
   <script>
     window.addEventListener('load', function(ev) {
-      // Configuración explicita del renderizador HTML/CanvasKit según rendimiento
+      // Descarga e inicialización estándar de Flutter Web
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
+          serviceWorkerVersion: typeof serviceWorkerVersion !== 'undefined' ? serviceWorkerVersion : null,
         },
         onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine({
-            renderer: "html" // 'html' ofrece menor tiempo de carga inicial que CanvasKit
-          }).then(function(appRunner) {
-            // Remover pantalla de carga previa a la hidratación del UI de Flutter
-            const loadingEl = document.getElementById('loading');
-            if (loadingEl) loadingEl.remove();
-            
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            // Elimina la pantalla de carga tan pronto como arranca Flutter
+            var loadingEl = document.getElementById('loading');
+            if (loadingEl) {
+              loadingEl.remove();
+            }
             return appRunner.runApp();
           });
         }
