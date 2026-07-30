@@ -8,10 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="PyME-Sync - Sistema Móvil de Gestión de Inventario para pequeñas y medianas empresas.">
 
-  <!-- Precarga de scripts para reducir tiempo de bloqueo -->
-  <link rel="preload" href="flutter.js" as="script">
-  <link rel="preload" href="main.dart.js" as="script">
-
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -24,6 +20,11 @@
 
   <title>PyME-Sync - Sistema Móvil de Gestión de Inventario</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Definición segura de la variable del Service Worker -->
+  <script>
+    var serviceWorkerVersion = null;
+  </script>
 
   <style>
     body {
@@ -58,11 +59,11 @@
     }
   </style>
 
-  <!-- Script principal de Flutter (sin defer para asegurar orden de carga) -->
-  <script src="flutter.js"></script>
+  <!-- Script principal de Flutter -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <!-- Indicador visual mientras carga el Javascript -->
+  <!-- Loader inicial -->
   <div id="loading" class="loading-container">
     <div class="spinner"></div>
     <p>Cargando PyME-Sync...</p>
@@ -70,14 +71,12 @@
 
   <script>
     window.addEventListener('load', function(ev) {
-      // Descarga e inicialización estándar de Flutter Web
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
-          serviceWorkerVersion: typeof serviceWorkerVersion !== 'undefined' ? serviceWorkerVersion : null,
+          serviceWorkerVersion: serviceWorkerVersion,
         },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
-            // Elimina la pantalla de carga tan pronto como arranca Flutter
             var loadingEl = document.getElementById('loading');
             if (loadingEl) {
               loadingEl.remove();
