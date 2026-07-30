@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Base href exacto para GitHub Pages -->
   <base href="/lumiere-web/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="PyME-Sync - Sistema Móvil de Gestión de Inventario y Ventas en Tiempo Real">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PyME-Sync - Sistema Móvil de Gestión de Inventario">
 
-  <!-- Resource Hints para acelerar conexiones a servicios externos (Firebase / Fuentes) -->
+  <!-- HACE QUE SE VEA RESPONSIVO EN CELULARES -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Acelera conexiones externas para bajar el LCP -->
   <link rel="preconnect" href="https://firestore.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Preload para precargar recursos críticos antes de la ejecución -->
-  <link rel="preload" href="flutter_bootstrap.js" as="script">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -28,10 +28,7 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <!-- 
-    Atributo 'defer' para ejecutar el script de arranque después del parseo del HTML
-    sin bloquear el renderizado inicial de la pantalla
-  -->
+  <!-- Carga diferida del script para no bloquear la pantalla (reduce TBT) -->
   <script defer src="flutter_bootstrap.js"></script>
 </body>
 </html>
