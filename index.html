@@ -21,11 +21,6 @@
   <title>PyME-Sync - Sistema Móvil de Gestión de Inventario</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Definición segura de la variable del Service Worker -->
-  <script>
-    var serviceWorkerVersion = null;
-  </script>
-
   <style>
     body {
       background-color: #121212;
@@ -59,11 +54,11 @@
     }
   </style>
 
-  <!-- Script principal de Flutter -->
-  <script src="flutter.js" defer></script>
+  <!-- Script principal de Flutter sin diferir para garantizar la ejecución -->
+  <script src="flutter.js"></script>
 </head>
 <body>
-  <!-- Loader inicial -->
+  <!-- Loader visual -->
   <div id="loading" class="loading-container">
     <div class="spinner"></div>
     <p>Cargando PyME-Sync...</p>
@@ -72,9 +67,6 @@
   <script>
     window.addEventListener('load', function(ev) {
       _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
             var loadingEl = document.getElementById('loading');
