@@ -1,50 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+
   <base href="/lumiere-web/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="PyME-Sync - Sistema Móvil de Gestión de Inventario">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0175C2">
-  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PyME-Sync - Sistema Móvil de Gestión de Inventario para pequeñas y medianas empresas.">
+
+  <!-- Preconnect y Preload para recursos críticos -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="flutter.js" as="script">
+  <link rel="preload" href="main.dart.js" as="script">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="PyME-Sync">
-
-  <link rel="dns-prefetch" href="https://firestore.googleapis.com">
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link rel="preconnect" href="https://firestore.googleapis.com" fetchpriority="low">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin fetchpriority="low">
-
-  <link rel="preload" href="main.dart.js" as="script" fetchpriority="high">
-
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>PyME-Sync</title>
+  <!-- Theme Color para PWA y accesibilidad -->
+  <meta name="theme-color" content="#121212">
+
+  <title>PyME-Sync - Sistema Móvil de Gestión de Inventario</title>
   <link rel="manifest" href="manifest.json">
 
   <style>
-    @font-face {
-      font-family: 'MaterialIcons';
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Roboto';
-      font-display: swap;
-    }
+    /* Estilos inline para evitar Render Blocking y mejorar FCP */
     body {
+      background-color: #121212;
       margin: 0;
       padding: 0;
-      background: #0175C2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
+
+  <!-- Script de Flutter con atributo defer -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
+  <!-- Indicador visual inmediato para First Contentful Paint (FCP) -->
+  <div id="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando PyME-Sync...</p>
+  </div>
+
   <script>
-    window.flutterWebRenderer = "html";
+    window.addEventListener('load', function(ev) {
+      // Configuración explicita del renderizador HTML/CanvasKit según rendimiento
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine({
+            renderer: "html" // 'html' ofrece menor tiempo de carga inicial que CanvasKit
+          }).then(function(appRunner) {
+            // Remover pantalla de carga previa a la hidratación del UI de Flutter
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl) loadingEl.remove();
+            
+            return appRunner.runApp();
+          });
+        }
+      });
+    });
   </script>
-  <script defer src="flutter_bootstrap.js"></script>
 </body>
 </html>
