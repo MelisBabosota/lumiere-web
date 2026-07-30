@@ -1,46 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="/lumiere-web/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="PyME-Sync - Sistema Móvil de Gestión de Inventario y Ventas en Tiempo Real">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Resource Hints para acelerar conexiones a servicios externos (Firebase / Fuentes) -->
+  <link rel="preconnect" href="https://firestore.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload para precargar recursos críticos antes de la ejecución -->
+  <link rel="preload" href="flutter_bootstrap.js" as="script">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="mi_app">
+  <meta name="apple-mobile-web-app-title" content="PyME-Sync">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>mi_app</title>
+  <title>PyME-Sync</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
+  <!-- 
+    Atributo 'defer' para ejecutar el script de arranque después del parseo del HTML
+    sin bloquear el renderizado inicial de la pantalla
   -->
-  <script src="flutter_bootstrap.js" async></script>
+  <script defer src="flutter_bootstrap.js"></script>
 </body>
 </html>
